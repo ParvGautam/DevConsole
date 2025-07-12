@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { MdOutlineMail, MdPassword } from "react-icons/md";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
@@ -26,6 +26,13 @@ const LoginPage = () => {
       queryClient.invalidateQueries({ queryKey: ["authUser"] });
     }
   });
+
+  useEffect(() => {
+    if (window.localStorage.getItem('autoGuestLogin')) {
+      window.localStorage.removeItem('autoGuestLogin');
+      loginMutatioan({ username: 'guest_interviewer', password: 'guest1234' });
+    }
+  }, []);
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -69,6 +76,14 @@ const LoginPage = () => {
               />
             </label>
             <button className='w-full py-3 rounded-full bg-[#FF5722] hover:bg-[#FF8A65] text-white font-bold text-lg transition'>{isPending ? "Loading..." : "Login"}</button>
+            <button
+              type="button"
+              className="w-full py-3 rounded-full bg-[#23272F] border border-[#FF5722] text-[#FF5722] hover:bg-[#FF8A65] hover:text-white font-bold text-lg transition"
+              onClick={() => loginMutatioan({ username: 'guest_interviewer', password: 'guest1234' })}
+              disabled={isPending}
+            >
+              {isPending ? "Loading..." : "Login as Guest (Interviewer)"}
+            </button>
             {isError && <p className='text-red-500'>{error.message}</p>}
           </form>
           <div className='flex flex-col gap-2 w-full'>

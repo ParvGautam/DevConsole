@@ -115,6 +115,17 @@ const SignUpPage = () => {
 							</div>
 						</div>
 						<button className="w-full py-3 rounded-full bg-[#FF5722] hover:bg-[#FF8A65] text-white font-bold text-lg transition">{isPending ? "Loading..." : "Sign up"}</button>
+						<button
+							type="button"
+							className="w-full py-3 rounded-full bg-[#23272F] border border-[#FF5722] text-[#FF5722] hover:bg-[#FF8A65] hover:text-white font-bold text-lg transition"
+							onClick={() => {
+								// Redirect to login and auto-login as guest
+								window.localStorage.setItem('autoGuestLogin', '1');
+								window.location.href = '/login';
+							}}
+						>
+							Login as Guest (Interviewer)
+						</button>
 						{isError && <p className="text-red-500">{error.message}</p>}
 					</form>
 					<div className="flex flex-col gap-2 w-full">
