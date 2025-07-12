@@ -2,6 +2,7 @@ import path from "path";
 import express from "express";
 import dotenv from "dotenv";
 import cookieParser from "cookie-parser";
+import cors from "cors";
 import { v2 as cloudinary } from "cloudinary";
 
 import authRoutes from "./routes/auth.routes.js";
@@ -22,6 +23,16 @@ cloudinary.config({
 const app = express();
 const PORT = process.env.PORT || 5000;
 const __dirname = path.resolve();
+
+// CORS configuration for production
+app.use(cors({
+  origin: process.env.NODE_ENV === "production" 
+    ? ["https://your-frontend-domain.vercel.app", "http://localhost:5173"] 
+    : "http://localhost:5173",
+  credentials: true,
+  methods: ["GET", "POST", "PUT", "DELETE"],
+  allowedHeaders: ["Content-Type", "Authorization", "Cookie"]
+}));
 
 app.use(express.json({ limit: "5mb" })); // to parse req.body
 // limit shouldn't be too high to prevent DOS
