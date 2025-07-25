@@ -31,7 +31,7 @@ const FollowersFollowing = () => {
   const { data: profile, isLoading: profileLoading } = useQuery({
     queryKey: ["userProfile", username],
     queryFn: async () => {
-      const res = await fetch(`${API_BASE_URL}/api/users/profile/${username}`);
+      const res = await fetch(`${API_BASE_URL}/api/users/profile/${username}`, { credentials: 'include' });
       const data = await res.json();
       if (!res.ok) throw new Error(data.error || "Failed to fetch profile");
       return data;
@@ -42,7 +42,7 @@ const FollowersFollowing = () => {
   const { data, isLoading, isError, error } = useQuery({
     queryKey: [`${type}-${username}`],
     queryFn: async () => {
-      const res = await fetch(`${API_BASE_URL}/api/users/followFollowing/${username}/${type}`);
+      const res = await fetch(`${API_BASE_URL}/api/users/followFollowing/${username}/${type}`, { credentials: 'include' });
       const data = await res.json();
       if (!res.ok) throw new Error(data.error || "Failed to fetch users");
       return data;

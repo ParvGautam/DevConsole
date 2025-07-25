@@ -31,7 +31,7 @@ const SearchPage = () => {
     queryKey: ["searchUsers", debouncedQuery],
     queryFn: async () => {
       if (!debouncedQuery.trim()) return [];
-      const res = await fetch(`${API_BASE_URL}/api/users/search/${debouncedQuery}`);
+      const res = await fetch(`${API_BASE_URL}/api/users/search/${debouncedQuery}`, { credentials: 'include' });
       const data = await res.json();
       if (!res.ok) throw new Error(data.error);
       return data;

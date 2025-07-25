@@ -27,7 +27,7 @@ const FollowPage = () => {
   const { data: users, isLoading } = useQuery({
     queryKey: ["users"],
     queryFn: async () => {
-      const res = await fetch(`${API_BASE_URL}/api/users/followPage`);
+      const res = await fetch(`${API_BASE_URL}/api/users/followPage`, { credentials: 'include' });
       const data = await res.json();
       if (!res.ok) throw new Error(data.error || "Something went wrong!");
       return data;

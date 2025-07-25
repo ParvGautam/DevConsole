@@ -9,7 +9,7 @@ const SearchFeature = () => {
     const { data: users, isLoading, isError } = useQuery(
         ["searchUsers", query],
         async () => {
-            const res = await fetch(`${API_BASE_URL}/api/users/search?query=${query}`);
+            const res = await fetch(`${API_BASE_URL}/api/users/search?query=${query}`, { credentials: 'include' });
             const data = await res.json();
             if (!res.ok) throw new Error(data.error || "Failed to search users.");
             return data;

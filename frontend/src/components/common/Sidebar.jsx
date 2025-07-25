@@ -16,7 +16,7 @@ const Sidebar = () => {
     const { mutate: logout } = useMutation({
         mutationFn: async () => {
             try {
-                const res = await fetch(`${API_BASE_URL}/api/auth/logout`, { method: "POST" });
+                const res = await fetch(`${API_BASE_URL}/api/auth/logout`, { method: "POST", credentials: 'include' });
                 const data = await res.json();
                 if (!res.ok) throw new Error(data.error || "Something went wrong");
             } catch (error) {

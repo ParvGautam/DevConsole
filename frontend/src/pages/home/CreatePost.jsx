@@ -38,7 +38,8 @@ const CreatePost = () => {
       const res = await fetch(`${API_BASE_URL}/api/posts/create`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ text, blocks: blocksToSend })
+        body: JSON.stringify({ text, blocks: blocksToSend }),
+        credentials: 'include'
       });
       const data = await res.json();
       if (!res.ok) throw new Error(data.error || "Something went wrong");

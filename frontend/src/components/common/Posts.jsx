@@ -37,7 +37,7 @@ const Posts = ({ feedType, username, userId, verticalList }) => {
     queryKey: ["posts", feedType, username, userId],
     queryFn: async () => {
       try {
-        const res = await fetch(POST_ENDPOINT.startsWith('http') ? POST_ENDPOINT : `${API_BASE_URL}${POST_ENDPOINT}`);
+        const res = await fetch(POST_ENDPOINT.startsWith('http') ? POST_ENDPOINT : `${API_BASE_URL}${POST_ENDPOINT}`, { credentials: 'include' });
         const data = await res.json();
         if (!res.ok) {
           throw new Error(data.error || "Something went wrong");

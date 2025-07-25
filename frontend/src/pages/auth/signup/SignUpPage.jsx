@@ -5,7 +5,7 @@ import { FaUser } from "react-icons/fa";
 import { MdPassword, MdDriveFileRenameOutline } from "react-icons/md";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import AnimatedLogo from "../components/AnimatedLogo";
-import { API_BASE_URL } from "../../config/api";
+import { API_BASE_URL } from "../../../config/api";
 
 const passwordRequirements = [
 	"At least 8 characters",

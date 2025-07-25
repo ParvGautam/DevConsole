@@ -30,7 +30,10 @@ app.use(express.urlencoded({ extended: true })); // to parse form data(urlencode
 
 app.use(cookieParser());
 app.use(cors({
-  origin: "https://your-frontend-domain.netlify.app", // TODO: Replace with your actual frontend URL
+  origin: [
+    "http://localhost:3000",
+    "https://your-frontend-domain.netlify.app"
+  ], // Allow both local dev and deployed frontend
   credentials: true
 }));
 
