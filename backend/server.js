@@ -32,7 +32,8 @@ app.use(cookieParser());
 app.use(cors({
   origin: [
     "http://localhost:3000",
-    "https://devconsole-ochre.vercel.app"
+    "https://devconsole-ochre.vercel.app",
+	"https://devconsole1.netlify.app"
   ],
   credentials: true
 }));
