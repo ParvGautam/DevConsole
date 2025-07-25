@@ -1,0 +1,1 @@
+import AnimatedLogo from "./components/AnimatedLogo";
