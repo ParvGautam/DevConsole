@@ -33,7 +33,7 @@ app.use(cors({
   origin: [
     "http://localhost:3000",
     "https://devconsole-ochre.vercel.app",
-	"https://devconsole1.netlify.app"
+    "https://devconsole1.netlify.app"
   ],
   credentials: true
 }));
