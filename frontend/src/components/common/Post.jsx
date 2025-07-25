@@ -178,11 +178,13 @@ const Post = ({ post }) => {
                     <FaCopy className="w-3 h-3" /> {isCopied ? "Copied!" : "Copy"}
                   </button>
                 </div>
-                <div className="w-full max-w-2xl mx-auto overflow-x-auto">
+                <div className="w-full max-w-2xl mx-auto scrollbar-hide" style={{ scrollbarWidth: 'none', msOverflowStyle: 'none', maxWidth: '100%', minWidth: 0, maxHeight: 240, overflow: 'auto' }}>
                   <SyntaxHighlighter
                     language={currentBlock.language || "javascript"}
                     style={dracula}
-                    customStyle={{ margin: 0, borderRadius: "0.5rem", fontSize: "0.95rem", maxHeight: 240, background: "#000" }}
+                    showLineNumbers
+                    customStyle={{ margin: 0, borderRadius: "0.5rem", fontSize: "0.95rem", maxHeight: 240, background: "#000", overflow: 'auto', scrollbarWidth: 'none', msOverflowStyle: 'none', textAlign: 'left' }}
+                    codeTagProps={{ style: { fontFamily: 'JetBrains Mono, Fira Code, Fira Mono, monospace', textAlign: 'left' } }}
                   >
                     {currentBlock.codeSnippet}
                   </SyntaxHighlighter>
@@ -226,7 +228,7 @@ const Post = ({ post }) => {
   };
 
   return (
-    <div className="bg-black border border-[#23272F] rounded-2xl shadow-2xl w-full mx-0 mb-8 overflow-hidden flex flex-col transition-all duration-200 hover:shadow-blue-700/30" style={{ fontFamily: 'Inter, sans-serif' }}>
+    <div className="bg-black border border-gray-600 rounded-2xl shadow-2xl w-full mx-0 mb-8 overflow-hidden flex flex-col transition-all duration-200 hover:shadow-blue-700/30" style={{ fontFamily: 'Inter, sans-serif', width: '100%', maxWidth: '700px', minWidth: '350px', margin: '0 auto' }}>
       {/* Header */}
       <div className="flex items-center gap-3 px-6 pt-6 pb-2">
         <Link to={`/profile/${postOwner.username}`}> 
@@ -247,12 +249,10 @@ const Post = ({ post }) => {
       </div>
 
       {/* Main Content */}
-      <div className="px-6 pb-6 flex-1">
+      <div className="px-6 pb-6 flex-1 flex flex-col items-start justify-start">
         {/* Post Title/Description */}
         {post.text && (
-          <div className="mb-3">
-            <p className="text-xl text-white leading-snug break-words drop-shadow">{post.text}</p>
-          </div>
+          <p className="text-xl text-white leading-snug break-words drop-shadow text-left m-0 p-0" style={{ textAlign: 'left' }}>{post.text}</p>
         )}
         {/* Render blocks as carousel if present, else fallback to legacy fields */}
         {Array.isArray(post.blocks) && post.blocks.length > 0 ? (
@@ -261,7 +261,7 @@ const Post = ({ post }) => {
           <>
             {/* Code Snippet Display (legacy) */}
             {post.codeSnippet && (
-              <div className="bg-black rounded-xl p-4 mb-4 border border-[#31343C] relative overflow-x-auto shadow-inner">
+              <div className="bg-black rounded-xl p-4 mb-4 border border-[#31343C] relative scrollbar-hide" style={{ scrollbarWidth: 'none', msOverflowStyle: 'none', maxHeight: 240, overflow: 'auto' }}>
                 <div className="flex items-center justify-between mb-2">
                   <span className="text-xs font-mono px-2 py-0.5 rounded bg-[#FF5722] text-white uppercase tracking-wide">{post.language ? post.language : "Code"}</span>
                   <button onClick={handleCopyCode} className={`flex items-center gap-1 px-2 py-1 rounded bg-[#00DFA2] text-black hover:bg-[#F6FA70] transition-all text-xs font-mono shadow ${copiedLegacy ? 'opacity-70 pointer-events-none' : ''}`} disabled={copiedLegacy}>
@@ -271,8 +271,9 @@ const Post = ({ post }) => {
                 <SyntaxHighlighter
                   language={post.language || "javascript"}
                   style={dracula}
-                  customStyle={{ margin: 0, borderRadius: "0.5rem", fontSize: "1rem", fontFamily: 'JetBrains Mono, Fira Code, Fira Mono, monospace', background: '#000' }}
-                  codeTagProps={{ style: { fontFamily: 'JetBrains Mono, Fira Code, Fira Mono, monospace' } }}
+                  showLineNumbers
+                  customStyle={{ margin: 0, borderRadius: "0.5rem", fontSize: "1rem", fontFamily: 'JetBrains Mono, Fira Code, Fira Mono, monospace', background: '#000', overflow: 'auto', scrollbarWidth: 'none', msOverflowStyle: 'none', textAlign: 'left' }}
+                  codeTagProps={{ style: { fontFamily: 'JetBrains Mono, Fira Code, Fira Mono, monospace', textAlign: 'left' } }}
                 >
                   {post.codeSnippet}
                 </SyntaxHighlighter>
@@ -280,8 +281,8 @@ const Post = ({ post }) => {
             )}
             {/* Multiple Images Display with Sliding (legacy) */}
             {displayImages.length > 0 && (
-              <div className="w-full flex justify-center items-center relative mb-4">
-                <img src={displayImages[currentImageIndex]} className="object-contain max-h-72 rounded-xl border-2 border-blue-600 bg-[#181A20] shadow-lg" alt={`Post image ${currentImageIndex + 1}`} />
+              <div className="w-full flex justify-center items-center relative mb-4" style={{ width: '600px', maxWidth: '100%', minWidth: 0, margin: '0 auto' }}>
+                <img src={displayImages[currentImageIndex]} className="object-contain max-h-72 rounded-xl border-2 border-blue-600 bg-[#181A20] shadow-lg" style={{ width: '100%', maxWidth: '100%', minWidth: 0 }} alt={`Post image ${currentImageIndex + 1}`} />
                 {displayImages.length > 1 && (
                   <>
                     <button onClick={prevImage} className="absolute left-2 top-1/2 -translate-y-1/2 bg-gradient-to-r from-blue-600 to-purple-500 rounded-full p-2 text-white hover:from-purple-500 hover:to-blue-600 transition-all shadow-lg">

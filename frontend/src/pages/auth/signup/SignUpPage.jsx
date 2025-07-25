@@ -1,4 +1,4 @@
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useState } from "react";
 import { MdOutlineMail } from "react-icons/md";
 import { FaUser } from "react-icons/fa";
@@ -23,6 +23,7 @@ const SignUpPage = () => {
 		password: "",
 	});
 	const queryClient = useQueryClient();
+	const navigate = useNavigate();
 	const { mutate, isError, isPending, error } = useMutation({
 		mutationFn: async ({ email, username, fullName, password }) => {
 			const res = await fetch(`${API_BASE_URL}/api/auth/signup`, {
@@ -36,6 +37,7 @@ const SignUpPage = () => {
 		},
 		onSuccess: () => {
 			queryClient.invalidateQueries({ queryKey: ["authUser"] });
+			navigate("/");
 		},
 	});
 	const handleSubmit = (e) => {
