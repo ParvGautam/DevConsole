@@ -30,13 +30,25 @@ app.use(express.urlencoded({ extended: true })); // to parse form data(urlencode
 
 app.use(cookieParser());
 app.use(cors({
-	origin: [
-		"http://localhost:3000",
-		"https://devconsole-ochre.vercel.app",
-		"https://devconsole1.netlify.app"
-	],
+	origin: (origin, callback) => {
+		// Allow requests with no origin (such as mobile apps, curl, server-to-server)
+		if (!origin) return callback(null, true);
+
+		// Allow localhost, all vercel deployments (production & preview branches), and netlify
+		if (
+			origin.startsWith("http://localhost:") ||
+			origin.startsWith("http://127.0.0.1:") ||
+			origin.endsWith(".vercel.app") ||
+			origin.endsWith(".netlify.app")
+		) {
+			return callback(null, true);
+		}
+
+		return callback(null, false);
+	},
 	credentials: true
 }));
+
 
 // Ensure database connection before routing requests (essential for serverless invocations)
 app.use(async (req, res, next) => {

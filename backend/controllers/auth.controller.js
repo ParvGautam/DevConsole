@@ -94,11 +94,12 @@ export const login = async (req,res)=>{
 
 export const logout = async (req,res)=>{
     try{
+        const isProduction = process.env.NODE_ENV === "production" || Boolean(process.env.VERCEL);
         res.cookie("jwt", "", {
           maxAge: 0,
           httpOnly: true,
-          sameSite: process.env.NODE_ENV === "production" ? "none" : "lax",
-          secure: process.env.NODE_ENV === "production"
+          sameSite: isProduction ? "none" : "lax",
+          secure: isProduction
         });
         res.status(200).json({message:"Logged out successfully"})
     }
