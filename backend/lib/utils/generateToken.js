@@ -13,4 +13,4 @@ export const generateTokenAndSetCookie = (userId, res) => {
         sameSite: isProduction ? "none" : "lax",
         secure: isProduction
     });
-};
+};
