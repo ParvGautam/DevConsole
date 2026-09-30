@@ -30,20 +30,35 @@ app.use(express.urlencoded({ extended: true })); // to parse form data(urlencode
 
 app.use(cookieParser());
 app.use(cors({
-  origin: [
-    "http://localhost:3000",
-    "https://devconsole-ochre.vercel.app",
-    "https://devconsole1.netlify.app"
-  ],
-  credentials: true
+	origin: [
+		"http://localhost:3000",
+		"https://devconsole-ochre.vercel.app",
+		"https://devconsole1.netlify.app"
+	],
+	credentials: true
 }));
+
+// Ensure database connection before routing requests (essential for serverless invocations)
+app.use(async (req, res, next) => {
+	try {
+		await connectMongoDB();
+		next();
+	} catch (err) {
+		console.error("Database connection failed:", err.message);
+		res.status(500).json({ error: "Database connection failed" });
+	}
+});
 
 app.use("/api/auth", authRoutes);
 app.use("/api/users", userRoutes);
 app.use("/api/posts", postRoutes);
 app.use("/api/notifications", notificationRoutes);
 
-if (process.env.NODE_ENV === "production") {
+app.get("/", (req, res) => {
+	res.send("DevConsole Backend API is running");
+});
+
+if (process.env.NODE_ENV === "production" && !process.env.VERCEL) {
 	app.use(express.static(path.join(__dirname, "/frontend/dist")));
 
 	app.get("*", (req, res) => {
@@ -51,7 +66,10 @@ if (process.env.NODE_ENV === "production") {
 	});
 }
 
-app.listen(PORT, () => {
-	console.log(`Server is running on port ${PORT}`);
-	connectMongoDB();
-});
+if (process.env.NODE_ENV !== "production" || !process.env.VERCEL) {
+	app.listen(PORT, () => {
+		console.log(`Server is running on port ${PORT}`);
+	});
+}
+
+export default app;
